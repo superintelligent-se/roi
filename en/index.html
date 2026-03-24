@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>How much does it cost not to use AI to the fullest? | Superintelligent</title>
+  <meta name="description" content="Estimate your yearly, monthly and daily cost of not fully using AI across your organization." />
+  <link rel="canonical" href="https://superintelligent.se/en/" />
+  <link rel="alternate" hreflang="sv" href="https://superintelligent.se/" />
+  <link rel="alternate" hreflang="en" href="https://superintelligent.se/en/" />
+  <link rel="alternate" hreflang="x-default" href="https://superintelligent.se/" />
+  <style>
+    :root {
+      --bg: linear-gradient(180deg, #eef4fb 0%, #e6eef8 100%);
+      --card: #ffffff;
+      --text: #1e3048;
+      --muted: #3d526e;
+      --line: #dce5f2;
+      --primary: #1f6fc9;
+      --primary-dark: #0e57a9;
+      --accent: #d56a00;
+      --success: #2f9f2d;
+      --success-dark: #237a23;
+      --shadow: 0 14px 34px rgba(15, 41, 76, 0.12);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Inter", "Segoe UI", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.4;
+    }
+
+    .wrap {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 20px 16px 48px;
+    }
+
+    .calculator {
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .block {
+      padding: 28px 24px;
+      border-top: 1px solid var(--line);
+    }
+
+    .block:first-child {
+      border-top: 0;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      line-height: 1.12;
+      text-align: center;
+    }
+
+    .lead {
+      margin: 0;
+      text-align: center;
+      font-size: clamp(1.05rem, 2.6vw, 2rem);
+      color: var(--muted);
+    }
+
+    .lead strong {
+      color: var(--text);
+    }
+
+    label {
+      display: block;
+      font-size: clamp(1.25rem, 2.5vw, 2rem);
+      font-weight: 700;
+      margin-bottom: 14px;
+      text-align: center;
+    }
+
+    .input-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+    }
+
+    input {
+      width: 100%;
+      border: 2px solid #d4deea;
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-size: 1.8rem;
+      color: var(--text);
+    }
+
+    button {
+      border: 0;
+      border-radius: 10px;
+      padding: 14px 26px;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #fff;
+      cursor: pointer;
+      transition: transform 0.15s ease, filter 0.15s ease;
+    }
+
+    #calculateBtn {
+      background: linear-gradient(180deg, var(--primary) 0%, var(--primary-dark) 100%);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28);
+      min-width: 210px;
+    }
+
+    .result-title {
+      margin: 0 0 12px;
+      text-align: center;
+      font-size: clamp(1.45rem, 3vw, 2.2rem);
+      font-weight: 800;
+    }
+
+    .yearly {
+      text-align: center;
+      color: var(--accent);
+      font-size: clamp(2.1rem, 8vw, 5.4rem);
+      font-weight: 900;
+      margin-bottom: 8px;
+      line-height: 1.1;
+    }
+
+    .sub-result {
+      text-align: center;
+      color: #fff;
+      font-size: clamp(1.45rem, 4.5vw, 3rem);
+      font-weight: 800;
+      padding: 8px 12px;
+      background: radial-gradient(circle at center, #3f73ad 0%, #2b5786 60%, #3f73ad 100%);
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .error {
+      margin-top: 10px;
+      text-align: center;
+      color: #b42318;
+      font-size: 1.1rem;
+      font-weight: 600;
+      min-height: 1.3em;
+    }
+
+    .cta-wrap {
+      padding-top: 20px;
+      text-align: center;
+    }
+
+    .cta {
+      width: 100%;
+      background: linear-gradient(180deg, var(--success) 0%, var(--success-dark) 100%);
+      font-size: clamp(1.1rem, 2.9vw, 2rem);
+      padding: 16px;
+      text-decoration: none;
+      display: inline-block;
+      color: #fff;
+      font-weight: 800;
+      border-radius: 10px;
+    }
+
+    button:hover,
+    .cta:hover {
+      filter: brightness(1.05);
+      transform: translateY(-1px);
+    }
+
+    @media (max-width: 700px) {
+      .block { padding: 22px 16px; }
+      .input-row { grid-template-columns: 1fr; }
+      #calculateBtn { min-width: 0; width: 100%; }
+      input, button { font-size: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="calculator">
+      <div class="block">
+        <h1>How much does it cost not to use AI to the fullest?</h1>
+      </div>
+
+      <div class="block">
+        <p class="lead">Most companies lose at least <strong>€10,000</strong> per office employee each year in inefficiency.</p>
+      </div>
+
+      <div class="block">
+        <label for="employees">Enter number of office employees:</label>
+        <div class="input-row">
+          <input id="employees" type="number" min="1" step="1" inputmode="numeric" placeholder="e.g. 25" />
+          <button id="calculateBtn" type="button">Calculate</button>
+        </div>
+        <p id="error" class="error" aria-live="polite"></p>
+      </div>
+
+      <div class="block">
+        <h2 class="result-title">Estimated cost of inaction:</h2>
+        <div id="yearly" class="yearly">€0 / year</div>
+        <div id="monthly" class="sub-result">€0 / month</div>
+        <div id="daily" class="sub-result">€0 / day</div>
+
+        <div class="cta-wrap">
+          <a class="cta" href="#demo">Book a demo &amp; reduce the cost</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const COST_PER_EMPLOYEE_SEK = 100000;
+    const SEK_PER_EUR = 10;
+    const employeesInput = document.getElementById("employees");
+    const calculateBtn = document.getElementById("calculateBtn");
+    const yearlyEl = document.getElementById("yearly");
+    const monthlyEl = document.getElementById("monthly");
+    const dailyEl = document.getElementById("daily");
+    const errorEl = document.getElementById("error");
+
+    function formatCurrency(value) {
+      return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "EUR",
+        maximumFractionDigits: 0
+      }).format(value);
+    }
+
+    function calculate() {
+      const rawValue = employeesInput.value.trim();
+      const employees = Number(rawValue);
+
+      if (!rawValue) {
+        errorEl.textContent = "Add your employee count and see how much growth is currently left on the table.";
+        return;
+      }
+
+      if (!Number.isFinite(employees) || employees <= 0) {
+        errorEl.textContent = "Use a number above 0 — every day without the right AI setup increases the opportunity cost.";
+        return;
+      }
+
+      errorEl.textContent = "";
+
+      const yearlySEK = employees * COST_PER_EMPLOYEE_SEK;
+      const monthlySEK = yearlySEK / 12;
+      const dailySEK = yearlySEK / 365;
+
+      const yearlyEUR = yearlySEK / SEK_PER_EUR;
+      const monthlyEUR = monthlySEK / SEK_PER_EUR;
+      const dailyEUR = dailySEK / SEK_PER_EUR;
+
+      yearlyEl.textContent = `${formatCurrency(yearlyEUR)} / year`;
+      monthlyEl.textContent = `${formatCurrency(monthlyEUR)} / month`;
+      dailyEl.textContent = `${formatCurrency(dailyEUR)} / day`;
+    }
+
+    calculateBtn.addEventListener("click", calculate);
+    employeesInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        calculate();
+      }
+    });
+  </script>
+</body>
+</html>
