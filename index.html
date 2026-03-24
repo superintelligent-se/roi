@@ -11,19 +11,20 @@
   <link rel="alternate" hreflang="x-default" href="https://superintelligent.se/" />
   <style>
     :root {
-      --bg: #eef4fb;
-      --card: #f8fbff;
-      --text: #20324d;
-      --muted: #3f4f67;
-      --line: #d3dfef;
-      --blue: #1566be;
-      --blue-dark: #0f4f95;
-      --green: #43a329;
-      --green-dark: #2f851a;
-      --orange: #d96a00;
-      --result-bg: #eaf2fb;
+      --bg: #ebf1ff;
+      --card: #ffffff;
+      --text: #10223f;
+      --muted: #3d4f71;
+      --line: #d2def8;
+      --blue: #2E72EB;
+      --blue-dark: #1852b8;
+      --blue-soft: #dce9ff;
+      --green: #31a25f;
+      --green-dark: #1f854a;
+      --orange: #da6a0e;
+      --result-bg: #edf3ff;
       --radius: 18px;
-      --shadow: 0 10px 24px rgba(10, 42, 90, 0.14);
+      --shadow: 0 16px 36px rgba(17, 47, 104, 0.14);
     }
 
     * { box-sizing: border-box; }
@@ -32,7 +33,7 @@
       margin: 0;
       font-family: Arial, sans-serif;
       color: var(--text);
-      background: radial-gradient(circle at top, #f9fcff 0%, #dce8f7 100%);
+      background: radial-gradient(circle at top, #f8fbff 0%, #d8e7ff 55%, #cedfff 100%);
       line-height: 1.4;
       min-height: 100vh;
     }
@@ -49,6 +50,7 @@
       border-radius: var(--radius);
       box-shadow: var(--shadow);
       overflow: hidden;
+      backdrop-filter: blur(2px);
     }
 
     .section {
@@ -95,7 +97,7 @@
 
     input {
       width: min(100%, 360px);
-      border: 2px solid #bccde4;
+      border: 2px solid #b8ccf5;
       border-radius: 10px;
       padding: 14px 16px;
       font-size: 1.7rem;
@@ -118,11 +120,35 @@
     }
 
     .calculate {
-      background: linear-gradient(#2c7fd8, var(--blue));
-      box-shadow: inset 0 1px 0 #69a7eb;
+      background: linear-gradient(#4d89f3, var(--blue));
+      box-shadow: inset 0 1px 0 #87aff7, 0 8px 16px rgba(27, 82, 184, 0.25);
       font-size: 2rem;
       padding: 10px 24px;
       min-width: 240px;
+    }
+
+    .mode-toggle {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .mode-btn {
+      color: var(--blue-dark);
+      background: #fff;
+      border: 1px solid #b5ccfb;
+      border-radius: 999px;
+      padding: 10px 16px;
+      font-size: 1rem;
+      box-shadow: 0 2px 8px rgba(21, 66, 147, 0.12);
+    }
+
+    .mode-btn.active {
+      color: #fff;
+      background: linear-gradient(180deg, #4987f4 0%, var(--blue-dark) 100%);
+      border-color: var(--blue-dark);
     }
 
     .error {
@@ -149,7 +175,7 @@
     }
 
     .sub-results {
-      background: linear-gradient(90deg, rgba(21,102,190,0.13) 0%, rgba(21,102,190,0.36) 20%, rgba(21,102,190,0.36) 80%, rgba(21,102,190,0.13) 100%);
+      background: linear-gradient(90deg, rgba(46,114,235,0.13) 0%, rgba(46,114,235,0.45) 20%, rgba(46,114,235,0.45) 80%, rgba(46,114,235,0.13) 100%);
       border-radius: 12px;
       overflow: hidden;
     }
@@ -178,8 +204,8 @@
 
     .cta {
       display: inline-block;
-      background: linear-gradient(#58ba38, var(--green));
-      box-shadow: inset 0 1px 0 #8ad06f;
+      background: linear-gradient(#46bc77, var(--green));
+      box-shadow: inset 0 1px 0 #7ad5a2;
       text-decoration: none;
       font-size: clamp(1.3rem, 3vw, 2rem);
       padding: 14px 20px;
@@ -223,6 +249,10 @@
         font-size: 1.7rem;
       }
 
+      .mode-btn {
+        width: 100%;
+      }
+
       input {
         font-size: 1.45rem;
       }
@@ -246,7 +276,7 @@
       </div>
 
       <div class="section">
-        <p class="lead">De flesta företag förlorar <strong>minst 100 000 kr</strong> per tjänsteman och år i ineffektivitet.</p>
+        <p class="lead">De flesta företag förlorar <strong>minst <span id="basisAmount">100 000 kr</span></strong> per tjänsteman och år i ineffektivitet.</p>
       </div>
 
       <div class="section">
@@ -254,6 +284,10 @@
         <div class="controls">
           <input id="employees" type="number" min="1" step="1" inputmode="numeric" placeholder="t.ex. 25" aria-describedby="feedback" />
           <button class="calculate" id="calculateBtn" type="button">Räkna ut</button>
+        </div>
+        <div class="mode-toggle" aria-label="Val av beräkningsmodell">
+          <button type="button" class="mode-btn active" id="standardModeBtn">Standard: 100 000 kr</button>
+          <button type="button" class="mode-btn" id="conservativeModeBtn">Konservativ beräkning: 75 000 kr</button>
         </div>
         <p id="feedback" class="error" aria-live="polite"></p>
       </div>
@@ -280,10 +314,15 @@
     const yearResult = document.getElementById('yearResult');
     const monthResult = document.getElementById('monthResult');
     const dayResult = document.getElementById('dayResult');
+    const basisAmount = document.getElementById('basisAmount');
+    const standardModeBtn = document.getElementById('standardModeBtn');
+    const conservativeModeBtn = document.getElementById('conservativeModeBtn');
 
-    const COST_PER_EMPLOYEE = 100000;
+    const STANDARD_COST_PER_EMPLOYEE = 100000;
+    const CONSERVATIVE_COST_PER_EMPLOYEE = 75000;
     const DAYS_PER_YEAR = 365;
     const MONTHS_PER_YEAR = 12;
+    let costPerEmployee = STANDARD_COST_PER_EMPLOYEE;
 
     function formatSEK(value) {
       return new Intl.NumberFormat('sv-SE', {
@@ -324,6 +363,14 @@
       return '';
     }
 
+    function setMode(mode) {
+      const isConservative = mode === 'conservative';
+      costPerEmployee = isConservative ? CONSERVATIVE_COST_PER_EMPLOYEE : STANDARD_COST_PER_EMPLOYEE;
+      basisAmount.textContent = `${costPerEmployee.toLocaleString('sv-SE')} kr`;
+      standardModeBtn.classList.toggle('active', !isConservative);
+      conservativeModeBtn.classList.toggle('active', isConservative);
+    }
+
     function runCalculation() {
       const value = employeesInput.value.trim();
       const errorMessage = validateEmployees(value);
@@ -335,10 +382,12 @@
 
       feedback.textContent = '';
       const employees = Number(value);
-      const annualCost = employees * COST_PER_EMPLOYEE;
+      const annualCost = employees * costPerEmployee;
       setResults(annualCost);
     }
 
+    standardModeBtn.addEventListener('click', () => setMode('standard'));
+    conservativeModeBtn.addEventListener('click', () => setMode('conservative'));
     calculateBtn.addEventListener('click', runCalculation);
     employeesInput.addEventListener('keydown', (event) => {
       if (event.key === 'Enter') {
