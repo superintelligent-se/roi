@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="sv">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>AI-kostnadskalkylator | Vad kostar utebliven AI-användning?</title>
-  <meta name="description" content="Räkna ut vad det kostar ert företag att inte använda Microsoft Copilot och ChatGPT fullt ut." />
-  <link rel="canonical" href="https://superintelligent.se/" />
+  <title>AI Cost Calculator | What does underusing AI cost?</title>
+  <meta name="description" content="Estimate what it costs your company not to fully use Microsoft Copilot and ChatGPT." />
+  <link rel="canonical" href="https://superintelligent.se/en.html" />
   <link rel="alternate" hreflang="sv" href="https://superintelligent.se/" />
   <link rel="alternate" hreflang="en" href="https://superintelligent.se/en.html" />
   <link rel="alternate" hreflang="x-default" href="https://superintelligent.se/" />
@@ -19,9 +19,7 @@
       --blue: #1566be;
       --blue-dark: #0f4f95;
       --green: #43a329;
-      --green-dark: #2f851a;
       --orange: #d96a00;
-      --result-bg: #eaf2fb;
       --radius: 18px;
       --shadow: 0 10px 24px rgba(10, 42, 90, 0.14);
     }
@@ -56,9 +54,7 @@
       border-bottom: 1px solid var(--line);
     }
 
-    .section:last-child {
-      border-bottom: 0;
-    }
+    .section:last-child { border-bottom: 0; }
 
     h1 {
       font-size: clamp(2rem, 5vw, 3.4rem);
@@ -74,9 +70,7 @@
       color: var(--muted);
     }
 
-    .lead strong {
-      color: var(--text);
-    }
+    .lead strong { color: var(--text); }
 
     label {
       display: block;
@@ -170,10 +164,6 @@
     .cta-wrap {
       padding-top: 26px;
       text-align: center;
-      color: #b42318;
-      font-size: 1.1rem;
-      font-weight: 600;
-      min-height: 1.3em;
     }
 
     .cta {
@@ -182,6 +172,8 @@
       box-shadow: inset 0 1px 0 #8ad06f;
       text-decoration: none;
       font-size: clamp(1.3rem, 3vw, 2rem);
+      color: #fff;
+      font-weight: 700;
       padding: 14px 20px;
       border-radius: 10px;
       min-width: min(100%, 620px);
@@ -201,73 +193,49 @@
       text-decoration: none;
     }
 
-    .sr-only {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      overflow: hidden;
-      clip: rect(0,0,0,0);
-      white-space: nowrap;
-      border: 0;
-      padding: 0;
-      margin: -1px;
-    }
-
     @media (max-width: 640px) {
-      .section {
-        padding: 18px 14px;
-      }
-
-      .calculate {
-        width: 100%;
-        font-size: 1.7rem;
-      }
-
-      input {
-        font-size: 1.45rem;
-      }
-
-      .cta {
-        width: 100%;
-      }
+      .section { padding: 18px 14px; }
+      .calculate { width: 100%; font-size: 1.7rem; }
+      input { font-size: 1.45rem; }
+      .cta { width: 100%; }
     }
   </style>
 </head>
 <body>
   <main>
-    <div class="lang-switch" aria-label="Språk">
-      <span>Svenska</span>
-      <a href="en.html" lang="en">English</a>
+    <div class="lang-switch" aria-label="Language">
+      <a href="/" lang="sv">Svenska</a>
+      <span>English</span>
     </div>
 
-    <section class="calculator" aria-label="Kalkylator för AI-kostnad">
+    <section class="calculator" aria-label="AI cost calculator">
       <div class="section">
-        <h1>Hur mycket kostar det er att inte använda AI fullt ut?</h1>
+        <h1>How much is it costing you to not use AI to its full potential?</h1>
       </div>
 
       <div class="section">
-        <p class="lead">De flesta företag förlorar <strong>minst 100 000 kr</strong> per tjänsteman och år i ineffektivitet.</p>
+        <p class="lead">Most companies lose at least <strong>€10,000 per employee per year</strong> due to inefficiency.</p>
       </div>
 
       <div class="section">
-        <label for="employees">Ange antal tjänstemän i ert företag:</label>
+        <label for="employees">Enter number of office employees in your company:</label>
         <div class="controls">
-          <input id="employees" type="number" min="1" step="1" inputmode="numeric" placeholder="t.ex. 25" aria-describedby="feedback" />
-          <button class="calculate" id="calculateBtn" type="button">Räkna ut</button>
+          <input id="employees" type="number" min="1" step="1" inputmode="numeric" placeholder="e.g. 25" aria-describedby="feedback" />
+          <button class="calculate" id="calculateBtn" type="button">Calculate</button>
         </div>
         <p id="feedback" class="error" aria-live="polite"></p>
       </div>
 
-      <div class="section" id="resultSection">
-        <h2 class="result-title">Ni förlorar uppskattningsvis:</h2>
-        <p class="yearly" id="yearResult">0 kr / år</p>
+      <div class="section">
+        <h2 class="result-title">Estimated loss:</h2>
+        <p class="yearly" id="yearResult">€0 / year</p>
         <div class="sub-results" role="status" aria-live="polite">
-          <div class="sub-row" id="monthResult">0 kr / månad</div>
-          <div class="sub-row" id="dayResult">0 kr / dag</div>
+          <div class="sub-row" id="monthResult">€0 / month</div>
+          <div class="sub-row" id="dayResult">€0 / day</div>
         </div>
 
         <div class="cta-wrap">
-          <a class="cta" href="#demo">Boka en demo &amp; minska kostnaden</a>
+          <a class="cta" href="#demo">Book a demo &amp; reduce the cost</a>
         </div>
       </div>
     </section>
@@ -281,14 +249,16 @@
     const monthResult = document.getElementById('monthResult');
     const dayResult = document.getElementById('dayResult');
 
-    const COST_PER_EMPLOYEE = 100000;
+    const COST_PER_EMPLOYEE_SEK = 100000;
+    const SEK_PER_EUR = 10;
+    const COST_PER_EMPLOYEE_EUR = COST_PER_EMPLOYEE_SEK / SEK_PER_EUR;
     const DAYS_PER_YEAR = 365;
     const MONTHS_PER_YEAR = 12;
 
-    function formatSEK(value) {
-      return new Intl.NumberFormat('sv-SE', {
+    function formatEUR(value) {
+      return new Intl.NumberFormat('en', {
         style: 'currency',
-        currency: 'SEK',
+        currency: 'EUR',
         maximumFractionDigits: 0
       }).format(value);
     }
@@ -297,28 +267,28 @@
       const monthlyCost = annualCost / MONTHS_PER_YEAR;
       const dailyCost = annualCost / DAYS_PER_YEAR;
 
-      yearResult.textContent = `${formatSEK(annualCost)} / år`;
-      monthResult.textContent = `${formatSEK(monthlyCost)} / månad`;
-      dayResult.textContent = `${formatSEK(dailyCost)} / dag`;
+      yearResult.textContent = `${formatEUR(annualCost)} / year`;
+      monthResult.textContent = `${formatEUR(monthlyCost)} / month`;
+      dayResult.textContent = `${formatEUR(dailyCost)} / day`;
     }
 
     function validateEmployees(value) {
       if (value === '') {
-        return 'Fyll i antal tjänstemän så visar vi hur mycket ni kan spara med rätt AI-stöd.';
+        return 'Enter the number of employees and we will show how much can be saved with stronger AI adoption.';
       }
 
       const number = Number(value);
 
       if (!Number.isFinite(number)) {
-        return 'Ange ett giltigt antal tjänstemän för att få en tydlig besparingsbild.';
+        return 'Please enter a valid employee count to get a reliable estimate.';
       }
 
       if (number === 0) {
-        return 'Skriv in minst 1 tjänsteman så ser ni hur snabbt ineffektivitet blir dyrt.';
+        return 'Start with at least 1 employee to reveal how quickly inefficiency creates avoidable cost.';
       }
 
       if (number < 0) {
-        return 'Negativa tal fungerar inte här – ange faktiskt antal tjänstemän och låt oss räkna hem AI-investeringen.';
+        return 'Negative values are not possible here — enter your real employee count and let AI pay off faster.';
       }
 
       return '';
@@ -335,7 +305,7 @@
 
       feedback.textContent = '';
       const employees = Number(value);
-      const annualCost = employees * COST_PER_EMPLOYEE;
+      const annualCost = employees * COST_PER_EMPLOYEE_EUR;
       setResults(annualCost);
     }
 
