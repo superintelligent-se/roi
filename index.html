@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ROI-kalkylator | Superintelligent</title>
+  <meta name="description" content="Beräkna möjlig ROI på AI och kompetensutveckling." />
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #475569;
+      --primary: #2563eb;
+      --border: #dbe4f0;
+      --shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .wrap {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 32px 20px 60px;
+    }
+
+    .hero {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: 2.4rem;
+      line-height: 1.1;
+    }
+
+    p.lead {
+      margin: 0;
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 720px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 20px;
+      grid-template-columns: 1.2fr 0.8fr;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 24px;
+    }
+
+    label {
+      display: block;
+      margin: 0 0 8px;
+      font-weight: 700;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font-size: 1rem;
+      margin-bottom: 16px;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px 18px;
+      background: var(--primary);
+      color: #fff;
+      border: 0;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .result {
+      margin-top: 8px;
+      font-size: 2rem;
+      font-weight: 800;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .small {
+      font-size: 0.95rem;
+    }
+
+    footer {
+      margin-top: 24px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      text-align: center;
+    }
+
+    @media (max-width: 800px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero">
+      <h1>ROI-kalkylator</h1>
+      <p class="lead">
+        En enkel första version för att uppskatta möjlig effekt av AI, utbildning eller andra initiativ.
+      </p>
+    </section>
+
+    <section class="grid">
+      <div class="card">
+        <h2>Fyll i dina värden</h2>
+
+        <label for="investment">Investering (SEK)</label>
+        <input id="investment" type="number" placeholder="Exempel: 50000" />
+
+        <label for="gain">Förväntad årlig nytta/intäkt (SEK)</label>
+        <input id="gain" type="number" placeholder="Exempel: 125000" />
+
+        <button id="calculateBtn">Beräkna ROI</button>
+      </div>
+
+      <div class="card">
+        <h2>Resultat</h2>
+        <p class="muted small">Formel: ((nytta - investering) / investering) × 100</p>
+        <div id="result" class="result">–</div>
+        <p id="explanation" class="muted"></p>
+      </div>
+    </section>
+
+    <footer>
+      Första MVP för calculator/ROI-sida.
+    </footer>
+  </main>
+
+  <script>
+    const investmentInput = document.getElementById("investment");
+    const gainInput = document.getElementById("gain");
+    const resultEl = document.getElementById("result");
+    const explanationEl = document.getElementById("explanation");
+    const button = document.getElementById("calculateBtn");
+
+    function formatPercent(value) {
+      return new Intl.NumberFormat("sv-SE", {
+        maximumFractionDigits: 1
+      }).format(value) + " %";
+    }
+
+    button.addEventListener("click", () => {
+      const investment = Number(investmentInput.value);
+      const gain = Number(gainInput.value);
+
+      if (!investment || investment <= 0 || gain < 0) {
+        resultEl.textContent = "Ogiltiga värden";
+        explanationEl.textContent = "Fyll i en investering över 0 och en nytta på 0 eller mer.";
+        return;
+      }
+
+      const roi = ((gain - investment) / investment) * 100;
+      resultEl.textContent = formatPercent(roi);
+
+      if (roi >= 100) {
+        explanationEl.textContent = "Det här indikerar mycket stark potentiell avkastning.";
+      } else if (roi >= 0) {
+        explanationEl.textContent = "Det här indikerar positiv potentiell avkastning.";
+      } else {
+        explanationEl.textContent = "Det här indikerar att nyttan ännu inte överstiger investeringen.";
+      }
+    });
+  </script>
+</body>
+</html>
