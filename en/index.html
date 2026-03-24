@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="sv">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Hur mycket kostar det er att inte använda AI fullt ut? | Superintelligent</title>
-  <meta name="description" content="Beräkna vad ineffektivitet kostar per år, månad och dag när AI inte används fullt ut i er organisation." />
-  <link rel="canonical" href="https://superintelligent.se/" />
+  <title>How much does it cost not to use AI to the fullest? | Superintelligent</title>
+  <meta name="description" content="Estimate your yearly, monthly and daily cost of not fully using AI across your organization." />
+  <link rel="canonical" href="https://superintelligent.se/en/" />
   <link rel="alternate" hreflang="sv" href="https://superintelligent.se/" />
   <link rel="alternate" hreflang="en" href="https://superintelligent.se/en/" />
   <link rel="alternate" hreflang="x-default" href="https://superintelligent.se/" />
@@ -187,30 +187,30 @@
   <main class="wrap">
     <section class="calculator">
       <div class="block">
-        <h1>Hur mycket kostar det er att inte använda AI fullt ut?</h1>
+        <h1>How much does it cost not to use AI to the fullest?</h1>
       </div>
 
       <div class="block">
-        <p class="lead">De flesta företag förlorar <strong>minst 100 000 kr</strong> per tjänsteman och år i ineffektivitet.</p>
+        <p class="lead">Most companies lose at least <strong>€10,000</strong> per office employee each year in inefficiency.</p>
       </div>
 
       <div class="block">
-        <label for="employees">Ange antal tjänstemän i ert företag:</label>
+        <label for="employees">Enter number of office employees:</label>
         <div class="input-row">
-          <input id="employees" type="number" min="1" step="1" inputmode="numeric" placeholder="t.ex. 25" />
-          <button id="calculateBtn" type="button">Räkna ut</button>
+          <input id="employees" type="number" min="1" step="1" inputmode="numeric" placeholder="e.g. 25" />
+          <button id="calculateBtn" type="button">Calculate</button>
         </div>
         <p id="error" class="error" aria-live="polite"></p>
       </div>
 
       <div class="block">
-        <h2 class="result-title">Ni förlorar uppskattningsvis:</h2>
-        <div id="yearly" class="yearly">0 kr / år</div>
-        <div id="monthly" class="sub-result">0 kr / månad</div>
-        <div id="daily" class="sub-result">0 kr / dag</div>
+        <h2 class="result-title">Estimated cost of inaction:</h2>
+        <div id="yearly" class="yearly">€0 / year</div>
+        <div id="monthly" class="sub-result">€0 / month</div>
+        <div id="daily" class="sub-result">€0 / day</div>
 
         <div class="cta-wrap">
-          <a class="cta" href="#demo">Boka en demo &amp; minska kostnaden</a>
+          <a class="cta" href="#demo">Book a demo &amp; reduce the cost</a>
         </div>
       </div>
     </section>
@@ -218,6 +218,7 @@
 
   <script>
     const COST_PER_EMPLOYEE_SEK = 100000;
+    const SEK_PER_EUR = 10;
     const employeesInput = document.getElementById("employees");
     const calculateBtn = document.getElementById("calculateBtn");
     const yearlyEl = document.getElementById("yearly");
@@ -226,9 +227,9 @@
     const errorEl = document.getElementById("error");
 
     function formatCurrency(value) {
-      return new Intl.NumberFormat("sv-SE", {
+      return new Intl.NumberFormat("en-US", {
         style: "currency",
-        currency: "SEK",
+        currency: "EUR",
         maximumFractionDigits: 0
       }).format(value);
     }
@@ -238,24 +239,28 @@
       const employees = Number(rawValue);
 
       if (!rawValue) {
-        errorEl.textContent = "Fyll i antal tjänstemän så visar vi hur mycket ni kan vinna på att agera redan idag.";
+        errorEl.textContent = "Add your employee count and see how much growth is currently left on the table.";
         return;
       }
 
       if (!Number.isFinite(employees) || employees <= 0) {
-        errorEl.textContent = "Ange ett värde över 0 – varje förlorad dag utan rätt AI-stöd kostar mer än ni tror.";
+        errorEl.textContent = "Use a number above 0 — every day without the right AI setup increases the opportunity cost.";
         return;
       }
 
       errorEl.textContent = "";
 
-      const yearly = employees * COST_PER_EMPLOYEE_SEK;
-      const monthly = yearly / 12;
-      const daily = yearly / 365;
+      const yearlySEK = employees * COST_PER_EMPLOYEE_SEK;
+      const monthlySEK = yearlySEK / 12;
+      const dailySEK = yearlySEK / 365;
 
-      yearlyEl.textContent = `${formatCurrency(yearly)} / år`;
-      monthlyEl.textContent = `${formatCurrency(monthly)} / månad`;
-      dailyEl.textContent = `${formatCurrency(daily)} / dag`;
+      const yearlyEUR = yearlySEK / SEK_PER_EUR;
+      const monthlyEUR = monthlySEK / SEK_PER_EUR;
+      const dailyEUR = dailySEK / SEK_PER_EUR;
+
+      yearlyEl.textContent = `${formatCurrency(yearlyEUR)} / year`;
+      monthlyEl.textContent = `${formatCurrency(monthlyEUR)} / month`;
+      dailyEl.textContent = `${formatCurrency(dailyEUR)} / day`;
     }
 
     calculateBtn.addEventListener("click", calculate);
