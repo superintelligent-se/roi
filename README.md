@@ -1,18 +1,24 @@
 # ROI Calculator
 
-En enkel första version av en ROI-kalkylator för Superintelligent.
+En ROI-kalkylator för Superintelligent med svensk och engelsk språkversion.
 
 ## Syfte
 Detta repo används för att bygga en lätt, snabb och tydlig kalkylator som kan publiceras som en egen sida eller under en subdomän.
 
 ## Innehåll
-- `index.html` – första statiska versionen av kalkylatorn
+- `index.html` och `index.js` är den svenska, kanoniska källversionen
+- `en/index.html` och `en/index.js` är den engelska spegelversionen
+- delad logik och delat innehåll ligger i gemensamma moduler i repo-roten
 - inga beroenden krävs för att komma igång
 
+## Arbetsmodell
+- svenska versionen är source of truth för produkt, design, copy och logik
+- ändringar i svenska versionen ska speglas i engelska versionen i samma uppgift
+- `/` och `/en/` ska hållas funktionellt och strukturellt parallella
+
 ## Nästa steg
-- förbättra designen
-- lägga till fler indatafält
-- lägga till svensk/engelsk språkversion
+- förbättra designen vidare utan att bryta språkparitet
+- lägga till fler indatafält om kalkylatorns modell utökas
 - koppla formulär till lead capture
 - publicera via GitHub Pages
 
@@ -24,4 +30,4 @@ Detta repo kan publiceras via GitHub Pages och kopplas till en egen subdomän, t
 - `roi.superintelligent.se`
 
 ## Status
-MVP / första struktur
+Aktiv tvåspråkig kalkylator
