@@ -5,395 +5,256 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>AI-kostnadskalkylator | Vad kostar utebliven AI-användning?</title>
   <meta name="description" content="Räkna ut vad det kostar ert företag att inte använda Microsoft Copilot och ChatGPT fullt ut." />
-  <link rel="canonical" href="https://superintelligent.se/" />
-  <link rel="alternate" hreflang="sv" href="https://superintelligent.se/" />
-  <link rel="alternate" hreflang="en" href="https://superintelligent.se/en.html" />
-  <link rel="alternate" hreflang="x-default" href="https://superintelligent.se/" />
-  <style>
-    :root {
-      --bg: #ebf1ff;
-      --card: #ffffff;
-      --text: #10223f;
-      --muted: #3d4f71;
-      --line: #d2def8;
-      --blue: #2E72EB;
-      --blue-dark: #1852b8;
-      --blue-soft: #dce9ff;
-      --green: #31a25f;
-      --green-dark: #1f854a;
-      --orange: #da6a0e;
-      --result-bg: #edf3ff;
-      --radius: 18px;
-      --shadow: 0 16px 36px rgba(17, 47, 104, 0.14);
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      color: var(--text);
-      background: radial-gradient(circle at top, #f8fbff 0%, #d8e7ff 55%, #cedfff 100%);
-      line-height: 1.4;
-      min-height: 100vh;
-    }
-
-    main {
-      width: min(100%, 860px);
-      margin: 0 auto;
-      padding: 24px 16px 48px;
-    }
-
-    .calculator {
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      overflow: hidden;
-      backdrop-filter: blur(2px);
-    }
-
-    .section {
-      padding: 24px;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .section:last-child {
-      border-bottom: 0;
-    }
-
-    h1 {
-      font-size: clamp(2rem, 5vw, 3.4rem);
-      line-height: 1.06;
-      text-align: center;
-      margin: 0;
-    }
-
-    .lead {
-      margin: 0;
-      text-align: center;
-      font-size: clamp(1.1rem, 2.7vw, 2rem);
-      color: var(--muted);
-    }
-
-    .lead strong {
-      color: var(--text);
-    }
-
-    label {
-      display: block;
-      text-align: center;
-      font-size: clamp(1.25rem, 2.6vw, 1.9rem);
-      font-weight: 700;
-      margin-bottom: 14px;
-    }
-
-    .controls {
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    input {
-      width: min(100%, 360px);
-      border: 2px solid #b8ccf5;
-      border-radius: 10px;
-      padding: 14px 16px;
-      font-size: 1.7rem;
-      color: var(--text);
-      background: #fff;
-    }
-
-    button {
-      border: 0;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: 700;
-      color: #fff;
-      transition: transform .15s ease, filter .15s ease;
-    }
-
-    button:hover {
-      filter: brightness(1.05);
-      transform: translateY(-1px);
-    }
-
-    .calculate {
-      background: linear-gradient(#4d89f3, var(--blue));
-      box-shadow: inset 0 1px 0 #87aff7, 0 8px 16px rgba(27, 82, 184, 0.25);
-      font-size: 2rem;
-      padding: 10px 24px;
-      min-width: 240px;
-    }
-
-    .mode-toggle {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 16px;
-    }
-
-    .mode-btn {
-      color: var(--blue-dark);
-      background: #fff;
-      border: 1px solid #b5ccfb;
-      border-radius: 999px;
-      padding: 10px 16px;
-      font-size: 1rem;
-      box-shadow: 0 2px 8px rgba(21, 66, 147, 0.12);
-    }
-
-    .mode-btn.active {
-      color: #fff;
-      background: linear-gradient(180deg, #4987f4 0%, var(--blue-dark) 100%);
-      border-color: var(--blue-dark);
-    }
-
-    .error {
-      margin-top: 12px;
-      min-height: 24px;
-      font-weight: 700;
-      text-align: center;
-      color: #b02626;
-    }
-
-    .result-title {
-      text-align: center;
-      margin: 0;
-      font-size: clamp(1.9rem, 4vw, 3rem);
-    }
-
-    .yearly {
-      font-size: clamp(2.7rem, 8vw, 5.8rem);
-      text-align: center;
-      color: var(--orange);
-      font-weight: 800;
-      margin: 18px 0;
-      line-height: 1.05;
-    }
-
-    .sub-results {
-      background: linear-gradient(90deg, rgba(46,114,235,0.13) 0%, rgba(46,114,235,0.45) 20%, rgba(46,114,235,0.45) 80%, rgba(46,114,235,0.13) 100%);
-      border-radius: 12px;
-      overflow: hidden;
-    }
-
-    .sub-row {
-      font-size: clamp(1.5rem, 3.7vw, 2.8rem);
-      text-align: center;
-      padding: 12px;
-      font-weight: 700;
-      color: #fff;
-      text-shadow: 0 1px 1px rgba(0,0,0,.3);
-    }
-
-    .sub-row + .sub-row {
-      border-top: 1px solid rgba(255,255,255,.35);
-    }
-
-    .cta-wrap {
-      padding-top: 26px;
-      text-align: center;
-      color: #b42318;
-      font-size: 1.1rem;
-      font-weight: 600;
-      min-height: 1.3em;
-    }
-
-    .cta {
-      display: inline-block;
-      background: linear-gradient(#46bc77, var(--green));
-      box-shadow: inset 0 1px 0 #7ad5a2;
-      text-decoration: none;
-      font-size: clamp(1.3rem, 3vw, 2rem);
-      padding: 14px 20px;
-      border-radius: 10px;
-      min-width: min(100%, 620px);
-    }
-
-    .lang-switch {
-      display: flex;
-      justify-content: flex-end;
-      margin-bottom: 10px;
-      font-size: .95rem;
-      gap: 10px;
-    }
-
-    .lang-switch a {
-      color: var(--blue-dark);
-      font-weight: 700;
-      text-decoration: none;
-    }
-
-    .sr-only {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      overflow: hidden;
-      clip: rect(0,0,0,0);
-      white-space: nowrap;
-      border: 0;
-      padding: 0;
-      margin: -1px;
-    }
-
-    @media (max-width: 640px) {
-      .section {
-        padding: 18px 14px;
-      }
-
-      .calculate {
-        width: 100%;
-        font-size: 1.7rem;
-      }
-
-      .mode-btn {
-        width: 100%;
-      }
-
-      input {
-        font-size: 1.45rem;
-      }
-
-      .cta {
-        width: 100%;
-      }
-    }
-  </style>
-</head>
-<body>
-  <main>
-    <div class="lang-switch" aria-label="Språk">
-      <span>Svenska</span>
-      <a href="en.html" lang="en">English</a>
-    </div>
-
-    <section class="calculator" aria-label="Kalkylator för AI-kostnad">
-      <div class="section">
-        <h1>Hur mycket kostar det er att inte använda AI fullt ut?</h1>
-      </div>
-
-      <div class="section">
-        <p class="lead">De flesta företag förlorar <strong>minst <span id="basisAmount">100 000 kr</span></strong> per tjänsteman och år i ineffektivitet.</p>
-      </div>
-
-      <div class="section">
-        <label for="employees">Ange antal tjänstemän i ert företag:</label>
-        <div class="controls">
-          <input id="employees" type="number" min="1" step="1" inputmode="numeric" placeholder="t.ex. 25" aria-describedby="feedback" />
-          <button class="calculate" id="calculateBtn" type="button">Räkna ut</button>
-        </div>
-        <div class="mode-toggle" aria-label="Val av beräkningsmodell">
-          <button type="button" class="mode-btn active" id="standardModeBtn">Standard: 100 000 kr</button>
-          <button type="button" class="mode-btn" id="conservativeModeBtn">Konservativ beräkning: 75 000 kr</button>
-        </div>
-        <p id="feedback" class="error" aria-live="polite"></p>
-      </div>
-
-      <div class="section" id="resultSection">
-        <h2 class="result-title">Ni förlorar uppskattningsvis:</h2>
-        <p class="yearly" id="yearResult">0 kr / år</p>
-        <div class="sub-results" role="status" aria-live="polite">
-          <div class="sub-row" id="monthResult">0 kr / månad</div>
-          <div class="sub-row" id="dayResult">0 kr / dag</div>
-        </div>
-
-        <div class="cta-wrap">
-          <a class="cta" href="#demo">Boka en demo &amp; minska kostnaden</a>
-        </div>
-      </div>
-    </section>
-  </main>
-
+  <script src="/urls.js"></script>
+  <link rel="canonical" id="canonical-link" href="" />
+  <link rel="alternate" id="alternate-sv" hreflang="sv" href="" />
+  <link rel="alternate" id="alternate-en" hreflang="en" href="" />
+  <link rel="alternate" id="alternate-default" hreflang="x-default" href="" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png" />
+  <link rel="icon" href="/favicon-32x32.png" sizes="32x32" type="image/png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <link rel="stylesheet" href="/index.css" />
   <script>
-    const employeesInput = document.getElementById('employees');
-    const feedback = document.getElementById('feedback');
-    const calculateBtn = document.getElementById('calculateBtn');
-    const yearResult = document.getElementById('yearResult');
-    const monthResult = document.getElementById('monthResult');
-    const dayResult = document.getElementById('dayResult');
-    const basisAmount = document.getElementById('basisAmount');
-    const standardModeBtn = document.getElementById('standardModeBtn');
-    const conservativeModeBtn = document.getElementById('conservativeModeBtn');
+    (function () {
+      const urls = window.SITE_URLS;
 
-    const STANDARD_COST_PER_EMPLOYEE = 100000;
-    const CONSERVATIVE_COST_PER_EMPLOYEE = 75000;
-    const DAYS_PER_YEAR = 365;
-    const MONTHS_PER_YEAR = 12;
-    let costPerEmployee = STANDARD_COST_PER_EMPLOYEE;
-
-    function formatSEK(value) {
-      return new Intl.NumberFormat('sv-SE', {
-        style: 'currency',
-        currency: 'SEK',
-        maximumFractionDigits: 0
-      }).format(value);
-    }
-
-    function setResults(annualCost) {
-      const monthlyCost = annualCost / MONTHS_PER_YEAR;
-      const dailyCost = annualCost / DAYS_PER_YEAR;
-
-      yearResult.textContent = `${formatSEK(annualCost)} / år`;
-      monthResult.textContent = `${formatSEK(monthlyCost)} / månad`;
-      dayResult.textContent = `${formatSEK(dailyCost)} / dag`;
-    }
-
-    function validateEmployees(value) {
-      if (value === '') {
-        return 'Fyll i antal tjänstemän så visar vi hur mycket ni kan spara med rätt AI-stöd.';
-      }
-
-      const number = Number(value);
-
-      if (!Number.isFinite(number)) {
-        return 'Ange ett giltigt antal tjänstemän för att få en tydlig besparingsbild.';
-      }
-
-      if (number === 0) {
-        return 'Skriv in minst 1 tjänsteman så ser ni hur snabbt ineffektivitet blir dyrt.';
-      }
-
-      if (number < 0) {
-        return 'Negativa tal fungerar inte här – ange faktiskt antal tjänstemän och låt oss räkna hem AI-investeringen.';
-      }
-
-      return '';
-    }
-
-    function setMode(mode) {
-      const isConservative = mode === 'conservative';
-      costPerEmployee = isConservative ? CONSERVATIVE_COST_PER_EMPLOYEE : STANDARD_COST_PER_EMPLOYEE;
-      basisAmount.textContent = `${costPerEmployee.toLocaleString('sv-SE')} kr`;
-      standardModeBtn.classList.toggle('active', !isConservative);
-      conservativeModeBtn.classList.toggle('active', isConservative);
-    }
-
-    function runCalculation() {
-      const value = employeesInput.value.trim();
-      const errorMessage = validateEmployees(value);
-
-      if (errorMessage) {
-        feedback.textContent = errorMessage;
+      if (!urls) {
         return;
       }
 
-      feedback.textContent = '';
-      const employees = Number(value);
-      const annualCost = employees * costPerEmployee;
-      setResults(annualCost);
-    }
-
-    standardModeBtn.addEventListener('click', () => setMode('standard'));
-    conservativeModeBtn.addEventListener('click', () => setMode('conservative'));
-    calculateBtn.addEventListener('click', runCalculation);
-    employeesInput.addEventListener('keydown', (event) => {
-      if (event.key === 'Enter') {
-        runCalculation();
-      }
-    });
+      document.getElementById('canonical-link').href = urls.canonical.sv;
+      document.getElementById('alternate-sv').href = urls.canonical.sv;
+      document.getElementById('alternate-en').href = urls.canonical.en;
+      document.getElementById('alternate-default').href = urls.canonical.sv;
+    }());
   </script>
+</head>
+<body>
+  <main>
+    <header class="topbar" aria-label="Sidhuvud">
+      <a class="brand-mark" href="#" data-url-key="language.sv" aria-label="Superintelligent startsida">
+        <img src="/images/logo/SuperintelligentLogo.svg" alt="Superintelligent" />
+      </a>
+      <div class="lang-switch" aria-label="Språk">
+        <span>Svenska</span>
+        <a href="#" lang="en" data-url-key="language.en">English</a>
+      </div>
+    </header>
+
+    <div class="page-flow">
+      <section class="content-card hero-card" id="hero" aria-labelledby="hero-title">
+        <div class="hero-shell">
+          <div class="hero-copy">
+            <span class="section-kicker">Den dolda AI-skulden</span>
+            <h1 id="hero-title">Vad kostar det er att AI ännu inte används systematiskt?</h1>
+            <p class="lead">För många organisationer motsvarar den dolda AI-skulden minst <strong><span id="basisAmount">75 000 kr</span></strong><sup class="source-mark"><a href="#" data-url-key="anchors.methodSources" aria-label="Se metod och källor för grundantagandet">[1]</a></sup> per tjänsteman och år i förlorad kapacitet och utebliven genomförandekraft.</p>
+          </div>
+
+          <div class="hero-video-block" aria-labelledby="hero-video-title">
+
+            <div class="hero-video-frame">
+              <div class="hero-video-embed">
+                <iframe
+                  src="https://player.vimeo.com/video/1177692867?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479"
+                  title="Video om hur AI blir en bestående del av verksamheten"
+                  allow="autoplay; fullscreen; picture-in-picture"
+                  allowfullscreen
+                  referrerpolicy="strict-origin-when-cross-origin"
+                ></iframe>
+              </div>
+            </div>
+            <p class="hero-video-copy">Se på 60 sekunder hur ni identifierar AI-skulden och börjar minska den.</p>
+            <div class="hero-video-cta">
+              <a class="cta" href="#calculator-title">Räkna ut er AI-skuld</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="calculator" id="calculator" aria-labelledby="calculator-title">
+        <div class="section calculator-intro">
+          <div class="section-header">
+            <span class="section-kicker">Hur mycket pengar förlorar ni?</span>
+            <h2 class="section-heading" id="calculator-title">Räkna ut vad bristande AI-användning kostar er</h2>
+            <p class="section-copy">Ange antal tjänstemän och välj ett antagande för att se den uppskattade kostnaden av att AI ännu inte används systematiskt i det dagliga arbetet.</p>
+            <p class="calculator-support-copy">Ni får direkt ett underlag att använda själv, dela internt och ta vidare till chef eller ledning.</p>
+          </div>
+        </div>
+
+        <div class="section calculator-workbench">
+          <div class="calculator-panel">
+            <label for="employees">Hur många tjänstemän påverkas av möten, analys, dokumentation och koordinering?</label>
+            <div class="controls">
+              <input id="employees" type="number" min="1" step="1" inputmode="numeric" placeholder="t.ex. 25, 80 eller 250" aria-describedby="feedback" />
+              <button class="calculate" id="calculateBtn" type="button">Beräkna kostnaden</button>
+            </div>
+            <p class="calculator-cta-note">Resultatet visar kostnad per år, månad och dag och kan laddas ner som presentationsunderlag.</p>
+            <section class="inline-result-summary" id="inlineResultSummary" aria-labelledby="inlineResultTitle">
+              <div class="inline-result-main" role="status" aria-live="polite">
+                <p class="inline-result-annual" id="inlineYearResult">0 kr / år</p>
+                <p class="inline-result-value" id="inlineMonthResult">0 kr / månad</p>
+              </div>
+              <a class="inline-result-link" id="inlineResultTitle" href="#" data-url-key="anchors.results">Klicka för full uträkning</a>
+              <span class="sr-only" id="inlineDayResult">0 kr / dag</span>
+            </section>
+            <fieldset class="basis-selector" aria-describedby="basisTrustLine">
+              <legend id="basisLegend">Välj antagande för beräkningen</legend>
+              <div class="basis-options" id="basisOptions" role="radiogroup" aria-label="Val av grundantagande"></div>
+              <div class="basis-info-panel" id="basisInfoPanel" hidden aria-live="polite">
+                <h3 class="basis-info-title" id="basisInfoTitle"></h3>
+                <p class="basis-info-copy" id="basisInfoText"></p>
+              </div>
+              <p class="basis-trust-line" id="basisTrustLine">Samma modell, olika antaganden för hur konservativt eller offensivt ni vill räkna i beslutsunderlaget.</p>
+            </fieldset>
+            <p id="feedback" class="error" aria-live="polite"></p>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-card result-card" id="resultSection" aria-labelledby="result-title-heading" data-pdf-section="results">
+        <div class="result-header">
+          <span class="section-kicker" id="resultSectionKicker">RESULTAT, BESLUTSUNDERLAG OCH NÄSTA STEG</span>
+          <h2 class="result-title" id="result-title-heading">Er uppskattade AI-skuld idag</h2>
+          <p class="section-copy" id="resultSectionCopy">Så mycket kostar det er per år, månad och dag att AI ännu inte används systematiskt i vardagliga arbetsmoment<sup class="source-mark"><a href="#" data-url-key="anchors.methodSources" aria-label="Se metod och källor för investeringsunderlaget">[2]</a></sup>.</p>
+          <p class="result-basis-summary" id="resultBasisSummary"></p>
+        </div>
+
+        <div class="result-overview">
+          <div class="result-primary">
+            <p class="result-eyebrow">Er uppskattade AI-skuld</p>
+            <p class="yearly" id="yearResult">0 kr / år</p>
+            <div class="sub-results" role="status" aria-live="polite">
+              <div class="sub-row" id="monthResult">0 kr / månad</div>
+              <div class="sub-row" id="dayResult">0 kr / dag</div>
+            </div>
+            <p class="result-supporting-copy">Detta är ett uppskattat produktivitets- och kapacitetsbortfall – inte en IT-kostnad.</p>
+            <p class="result-decision-line">Även små tidsförluster per person blir stora belopp över ett år. Därför är detta inte främst en teknikfråga, utan en ledningsfråga.</p>
+            <div class="result-actions" data-pdf-exclude>
+              <div class="result-action-group result-action-group-primary">
+                <a class="cta result-booking-cta" href="#" data-url-key="booking.sv">Boka 30 min kostnadsfri genomgång</a>
+                <p class="result-action-hint">Få hjälp att tolka resultatet och se vad som är enklast att göra först.</p>
+              </div>
+              <div class="result-action-group result-action-group-secondary">
+                <button class="pdf-download-btn" id="downloadPdfBtn" type="button" disabled>Beräkna kostnaden innan du kan ladda ner PDF</button>
+                <p class="pdf-feedback" id="pdfFeedback" aria-live="polite"></p>
+                <p class="result-action-note">Presentationsunderlaget är framtaget för att kunna delas vidare till chef, ledning eller andra beslutsfattare.</p>
+              </div>
+            </div>
+          </div>
+          <div class="result-explainer">
+            <h3 id="resultExplainerTitle">Nästa steg för er</h3>
+            <ol class="next-step-list" id="resultExplainerList"></ol>
+          </div>
+        </div>
+
+        <div class="interpretation-grid" id="interpretationGrid"></div>
+      </section>
+
+      <section class="content-card solution-card" id="solution" aria-labelledby="solution-title" data-pdf-section="solution">
+          <div class="section-header">
+            <span class="section-kicker">Vägen framåt</span>
+          <h2 class="section-heading" id="solution-title">Tre steg från AI-skuld till mätbar effekt</h2>
+          <p class="section-copy">Resultatet visar varför ni bör agera. Stegen nedan visar hur ni kan börja utan att göra det för stort, svårt eller tekniktungt.</p>
+        </div>
+
+        <div class="solution-layout">
+          <div class="phase-visual">
+            <figure class="phase-figure">
+              <button
+                class="phase-image-trigger"
+                type="button"
+                data-lightbox-trigger
+                data-lightbox-image="/images/phases/Superintelligent-modellen-40.webp"
+                data-lightbox-alt="Superintelligent-modellen i tre faser från AI-adoption till ett superintelligent företag"
+                aria-haspopup="dialog"
+                aria-controls="imageLightbox"
+                aria-label="Förstora bilden Superintelligent-modellen"
+              >
+                <img
+                  class="phase-image"
+                  src="/images/phases/Superintelligent-modellen-40.webp"
+                  alt="Superintelligent-modellen i tre faser från AI-adoption till ett superintelligent företag"
+                />
+                <span class="phase-image-zoom-badge" aria-hidden="true">
+                  <span class="phase-image-zoom-icon">+</span>
+                  <span class="phase-image-zoom-label">Förstora</span>
+                </span>
+              </button>
+            </figure>
+            <div class="phase-cta-band" data-pdf-exclude>
+              <div class="phase-cta-content">
+                <p class="phase-cta-copy">Vi visar vilken fas som är rätt att börja med och hur ni kan komma igång utan onödig komplexitet.</p>
+                <a class="cta cta-compact" href="#" data-url-key="booking.sv">Boka 30 min kostnadsfri genomgång</a>
+              </div>
+            </div>
+          </div>
+          <div class="phase-grid">
+            <article class="phase-card phase-card-priority">
+              <span class="phase-index">Fas 1</span>
+              <h3>Börja enkelt och få effekt snabbt</h3>
+              <p>Minska AI-skulden i vardagsarbetet genom att aktivera rätt verktyg och arbetssätt i möten, analys, dokumentation och kommunikation.</p>
+              <p class="phase-card-emphasis">Detta är oftast det enklaste och mest lönsamma första steget.</p>
+            </article>
+            <article class="phase-card">
+              <span class="phase-index">Fas 2</span>
+              <h3>Bygg vidare i arbetsflöden och team</h3>
+              <p>Öka output och minska friktion genom mer systematiska AI-stöd i prioriterade arbetsmoment.</p>
+            </article>
+            <article class="phase-card">
+              <span class="phase-index">Fas 3</span>
+              <h3>Skala och förankra brett</h3>
+              <p>Bygg ett mer AI-moget företag med tydlig förankring, styrning och intern förmåga.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-card proof-card" id="proof" aria-labelledby="proof-title" data-pdf-section="proof">
+        <div class="proof-header">
+          <div class="section-header proof-intro">
+            <span class="section-kicker">Metod och källor</span>
+            <h2 class="section-heading" id="proof-title">Så ska underlaget läsas</h2>
+            <p class="section-copy" id="proofSectionCopy">Det här är en lättläst tillitsnivå för beslutsfattare: vad forskningen faktiskt visar, vilka nivåer som används i modellen och vad som krävs för att realisera värdet.</p>
+          </div>
+        </div>
+
+        <div class="method-accordion" id="methodAccordion" data-accordion-group></div>
+      </section>
+
+      <section class="content-card cta-section" id="demo" aria-labelledby="cta-title">
+        <span class="section-kicker">Nästa steg</span>
+        <h2 class="section-heading" id="cta-title">Bygg det Superintelligenta företaget med oss</h2>
+        <p class="section-copy">Boka en genomgång och se vilka arbetsflöden som bör aktiveras först för att börja spara 75 000 kr per anställd och bygga långsiktig AI-kapacitet internt.</p>
+        <div class="cta-wrap">
+          <a class="cta" href="#" data-url-key="booking.sv">Jag vill ta nästa steg nu</a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <div class="pdf-export-root" id="pdfExportRoot" aria-hidden="true"></div>
+  <div class="image-lightbox" id="imageLightbox" hidden>
+    <div class="image-lightbox-backdrop" data-lightbox-close></div>
+    <div
+      class="image-lightbox-dialog"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="imageLightboxTitle"
+    >
+      <div class="image-lightbox-toolbar">
+        <p class="image-lightbox-title" id="imageLightboxTitle">Förstorad bild</p>
+        <button class="image-lightbox-close" type="button" data-lightbox-close aria-label="Stäng bildvisning">
+          Stäng
+        </button>
+      </div>
+      <div class="image-lightbox-content">
+        <img class="image-lightbox-image" id="imageLightboxImage" alt="" />
+      </div>
+    </div>
+  </div>
+
+  <script src="/index.js"></script>
 </body>
 </html>

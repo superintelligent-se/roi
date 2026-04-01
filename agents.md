@@ -40,6 +40,18 @@ Do not combine all of these into one large change unless explicitly requested.
 - If JavaScript is extracted, organize it into focused modules or files that match the current project complexity.
 - Do not over-engineer; choose the lightest solution consistent with the current stack.
 
+## URL policy
+- Do not hardcode new URLs directly in HTML or JavaScript.
+- Only use URLs defined in `/urls.js`.
+- If a required URL is missing, add it to `/urls.js` first.
+- Keep Swedish and English URL variants aligned.
+
+## Localization policy
+- Treat the Swedish version as the canonical source version for product, design, content, and logic.
+- Any change to the Swedish experience must be reflected in the English experience in the same task by default.
+- Do not treat Swedish/English parity as optional or as a follow-up unless the task explicitly says otherwise.
+- Maintain `/` and `/en/` as mirrored variants of the same product, not two independently evolving implementations.
+
 ## Refactoring rules
 When refactoring existing code:
 - first identify all files that participate in the feature,

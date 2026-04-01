@@ -2,273 +2,259 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>How much does it cost not to use AI to the fullest? | Superintelligent</title>
-  <meta name="description" content="Estimate your yearly, monthly and daily cost of not fully using AI across your organization." />
-  <link rel="canonical" href="https://superintelligent.se/en/" />
-  <link rel="alternate" hreflang="sv" href="https://superintelligent.se/" />
-  <link rel="alternate" hreflang="en" href="https://superintelligent.se/en/" />
-  <link rel="alternate" hreflang="x-default" href="https://superintelligent.se/" />
-  <style>
-    :root {
-      --bg: linear-gradient(180deg, #eef4fb 0%, #e6eef8 100%);
-      --card: #ffffff;
-      --text: #1e3048;
-      --muted: #3d526e;
-      --line: #dce5f2;
-      --primary: #1f6fc9;
-      --primary-dark: #0e57a9;
-      --accent: #d56a00;
-      --success: #2f9f2d;
-      --success-dark: #237a23;
-      --shadow: 0 14px 34px rgba(15, 41, 76, 0.12);
-      --radius: 18px;
-    }
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AI Cost Calculator | What does it cost when AI is not used systematically?</title>
+  <meta name="description" content="Calculate what it costs your company not to use Microsoft Copilot and ChatGPT to their full potential." />
+  <script src="/urls.js"></script>
+  <link rel="canonical" id="canonical-link" href="" />
+  <link rel="alternate" id="alternate-sv" hreflang="sv" href="" />
+  <link rel="alternate" id="alternate-en" hreflang="en" href="" />
+  <link rel="alternate" id="alternate-default" hreflang="x-default" href="" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png" />
+  <link rel="icon" href="/favicon-32x32.png" sizes="32x32" type="image/png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <link rel="stylesheet" href="/en/index.css" />
+  <script>
+    (function () {
+      const urls = window.SITE_URLS;
 
-    * { box-sizing: border-box; }
+      if (!urls) {
+        return;
+      }
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: "Inter", "Segoe UI", Arial, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.4;
-    }
-
-    .wrap {
-      max-width: 860px;
-      margin: 0 auto;
-      padding: 20px 16px 48px;
-    }
-
-    .calculator {
-      background: rgba(255, 255, 255, 0.95);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      overflow: hidden;
-    }
-
-    .block {
-      padding: 28px 24px;
-      border-top: 1px solid var(--line);
-    }
-
-    .block:first-child {
-      border-top: 0;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: clamp(1.8rem, 5vw, 3rem);
-      line-height: 1.12;
-      text-align: center;
-    }
-
-    .lead {
-      margin: 0;
-      text-align: center;
-      font-size: clamp(1.05rem, 2.6vw, 2rem);
-      color: var(--muted);
-    }
-
-    .lead strong {
-      color: var(--text);
-    }
-
-    label {
-      display: block;
-      font-size: clamp(1.25rem, 2.5vw, 2rem);
-      font-weight: 700;
-      margin-bottom: 14px;
-      text-align: center;
-    }
-
-    .input-row {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 12px;
-    }
-
-    input {
-      width: 100%;
-      border: 2px solid #d4deea;
-      border-radius: 10px;
-      padding: 14px 16px;
-      font-size: 1.8rem;
-      color: var(--text);
-    }
-
-    button {
-      border: 0;
-      border-radius: 10px;
-      padding: 14px 26px;
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: #fff;
-      cursor: pointer;
-      transition: transform 0.15s ease, filter 0.15s ease;
-    }
-
-    #calculateBtn {
-      background: linear-gradient(180deg, var(--primary) 0%, var(--primary-dark) 100%);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28);
-      min-width: 210px;
-    }
-
-    .result-title {
-      margin: 0 0 12px;
-      text-align: center;
-      font-size: clamp(1.45rem, 3vw, 2.2rem);
-      font-weight: 800;
-    }
-
-    .yearly {
-      text-align: center;
-      color: var(--accent);
-      font-size: clamp(2.1rem, 8vw, 5.4rem);
-      font-weight: 900;
-      margin-bottom: 8px;
-      line-height: 1.1;
-    }
-
-    .sub-result {
-      text-align: center;
-      color: #fff;
-      font-size: clamp(1.45rem, 4.5vw, 3rem);
-      font-weight: 800;
-      padding: 8px 12px;
-      background: radial-gradient(circle at center, #3f73ad 0%, #2b5786 60%, #3f73ad 100%);
-      border-top: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    .error {
-      margin-top: 10px;
-      text-align: center;
-      color: #b42318;
-      font-size: 1.1rem;
-      font-weight: 600;
-      min-height: 1.3em;
-    }
-
-    .cta-wrap {
-      padding-top: 20px;
-      text-align: center;
-    }
-
-    .cta {
-      width: 100%;
-      background: linear-gradient(180deg, var(--success) 0%, var(--success-dark) 100%);
-      font-size: clamp(1.1rem, 2.9vw, 2rem);
-      padding: 16px;
-      text-decoration: none;
-      display: inline-block;
-      color: #fff;
-      font-weight: 800;
-      border-radius: 10px;
-    }
-
-    button:hover,
-    .cta:hover {
-      filter: brightness(1.05);
-      transform: translateY(-1px);
-    }
-
-    @media (max-width: 700px) {
-      .block { padding: 22px 16px; }
-      .input-row { grid-template-columns: 1fr; }
-      #calculateBtn { min-width: 0; width: 100%; }
-      input, button { font-size: 1.5rem; }
-    }
-  </style>
+      document.getElementById('canonical-link').href = urls.canonical.en;
+      document.getElementById('alternate-sv').href = urls.canonical.sv;
+      document.getElementById('alternate-en').href = urls.canonical.en;
+      document.getElementById('alternate-default').href = urls.canonical.sv;
+    }());
+  </script>
 </head>
 <body>
-  <main class="wrap">
-    <section class="calculator">
-      <div class="block">
-        <h1>How much does it cost not to use AI to the fullest?</h1>
+  <main>
+    <header class="topbar" aria-label="Page header">
+      <a class="brand-mark" href="#" data-url-key="language.en" aria-label="Superintelligent home page">
+        <img src="/images/logo/SuperintelligentLogo.svg" alt="Superintelligent" />
+      </a>
+      <div class="lang-switch" aria-label="Language">
+        <a href="#" lang="sv" data-url-key="language.sv">Svenska</a>
+        <span>English</span>
       </div>
+    </header>
 
-      <div class="block">
-        <p class="lead">Most companies lose at least <strong>€10,000</strong> per office employee each year in inefficiency.</p>
-      </div>
+    <div class="page-flow">
+      <section class="content-card hero-card" id="hero" aria-labelledby="hero-title">
+        <div class="hero-shell">
+          <div class="hero-copy">
+            <span class="section-kicker">The hidden AI debt</span>
+            <h1 id="hero-title">What does it cost you when AI is still not used systematically?</h1>
+            <p class="lead">For many organizations, the hidden AI debt corresponds to at least <strong><span id="basisAmount">75,000 SEK</span></strong><sup class="source-mark"><a href="#" data-url-key="anchors.methodSources" aria-label="See method and sources for the base assumption">[1]</a></sup> per office employee per year in lost capacity and missed execution.</p>
+          </div>
 
-      <div class="block">
-        <label for="employees">Enter number of office employees:</label>
-        <div class="input-row">
-          <input id="employees" type="number" min="1" step="1" inputmode="numeric" placeholder="e.g. 25" />
-          <button id="calculateBtn" type="button">Calculate</button>
+          <div class="hero-video-block" aria-labelledby="hero-video-title">
+
+            <div class="hero-video-frame">
+              <div class="hero-video-embed">
+                <iframe
+                  src="https://player.vimeo.com/video/1177692867?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479"
+                  title="Video about how AI becomes a lasting part of the business"
+                  allow="autoplay; fullscreen; picture-in-picture"
+                  allowfullscreen
+                  referrerpolicy="strict-origin-when-cross-origin"
+                ></iframe>
+              </div>
+            </div>
+            <p class="hero-video-copy">Watch in 60 seconds how you identify the AI debt and start reducing it.</p>
+            <div class="hero-video-cta">
+              <a class="cta" href="#calculator-title">Calculate your AI debt</a>
+            </div>
+          </div>
         </div>
-        <p id="error" class="error" aria-live="polite"></p>
-      </div>
+      </section>
 
-      <div class="block">
-        <h2 class="result-title">Estimated cost of inaction:</h2>
-        <div id="yearly" class="yearly">€0 / year</div>
-        <div id="monthly" class="sub-result">€0 / month</div>
-        <div id="daily" class="sub-result">€0 / day</div>
+      <section class="calculator" id="calculator" aria-labelledby="calculator-title">
+        <div class="section calculator-intro">
+          <div class="section-header">
+            <span class="section-kicker">How much money are you losing?</span>
+            <h2 class="section-heading" id="calculator-title">Calculate what insufficient AI usage is costing you</h2>
+            <p class="section-copy">Enter the number of office employees and choose an assumption to see the estimated cost of AI still not being used systematically in day-to-day work.</p>
+            <p class="calculator-support-copy">You immediately get a decision brief you can use yourself, share internally, and bring to a manager or leadership team.</p>
+          </div>
+        </div>
 
+        <div class="section calculator-workbench">
+          <div class="calculator-panel">
+            <label for="employees">How many office employees are affected by meetings, analysis, documentation, and coordination?</label>
+            <div class="controls">
+              <input id="employees" type="number" min="1" step="1" inputmode="numeric" placeholder="e.g. 25, 80 or 250" aria-describedby="feedback" />
+              <button class="calculate" id="calculateBtn" type="button">Calculate the cost</button>
+            </div>
+            <p class="calculator-cta-note">The result shows the cost per year, month, and day and can be downloaded as a presentation brief.</p>
+            <section class="inline-result-summary" id="inlineResultSummary" aria-labelledby="inlineResultTitle">
+              <div class="inline-result-main" role="status" aria-live="polite">
+                <p class="inline-result-annual" id="inlineYearResult">SEK 0 / year</p>
+                <p class="inline-result-value" id="inlineMonthResult">SEK 0 / month</p>
+              </div>
+              <a class="inline-result-link" id="inlineResultTitle" href="#" data-url-key="anchors.results">Click for full calculation</a>
+              <span class="sr-only" id="inlineDayResult">SEK 0 / day</span>
+            </section>
+            <fieldset class="basis-selector" aria-describedby="basisTrustLine">
+              <legend id="basisLegend">Choose assumption for the calculation</legend>
+              <div class="basis-options" id="basisOptions" role="radiogroup" aria-label="Choice of baseline assumption"></div>
+              <div class="basis-info-panel" id="basisInfoPanel" hidden aria-live="polite">
+                <h3 class="basis-info-title" id="basisInfoTitle"></h3>
+                <p class="basis-info-copy" id="basisInfoText"></p>
+              </div>
+              <p class="basis-trust-line" id="basisTrustLine">Same model, different assumptions depending on how conservatively or aggressively you want to calculate in the decision brief.</p>
+            </fieldset>
+            <p id="feedback" class="error" aria-live="polite"></p>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-card result-card" id="resultSection" aria-labelledby="result-title-heading" data-pdf-section="results">
+        <div class="result-header">
+          <span class="section-kicker" id="resultSectionKicker">RESULTS, DECISION BRIEF, AND NEXT STEPS</span>
+          <h2 class="result-title" id="result-title-heading">Your estimated AI debt today</h2>
+          <p class="section-copy" id="resultSectionCopy">This is what it costs you per year, month, and day that AI is still not used systematically in everyday work tasks<sup class="source-mark"><a href="#" data-url-key="anchors.methodSources" aria-label="See method and sources for the investment brief">[2]</a></sup>.</p>
+          <p class="result-basis-summary" id="resultBasisSummary"></p>
+        </div>
+
+        <div class="result-overview">
+          <div class="result-primary">
+            <p class="result-eyebrow">Your estimated AI debt</p>
+            <p class="yearly" id="yearResult">SEK 0 / year</p>
+            <div class="sub-results" role="status" aria-live="polite">
+              <div class="sub-row" id="monthResult">SEK 0 / month</div>
+              <div class="sub-row" id="dayResult">SEK 0 / day</div>
+            </div>
+            <p class="result-supporting-copy">This is an estimated productivity and capacity loss, not an IT cost.</p>
+            <p class="result-decision-line">Even small time losses per person become large amounts over a year. That is why this is not primarily a technology issue, but a leadership issue.</p>
+            <div class="result-actions" data-pdf-exclude>
+              <div class="result-action-group result-action-group-primary">
+                <a class="cta result-booking-cta" href="#" data-url-key="booking.en">Book a free 30-minute walkthrough</a>
+                <p class="result-action-hint">Get help interpreting the result and seeing what is easiest to do first.</p>
+              </div>
+              <div class="result-action-group result-action-group-secondary">
+                <button class="pdf-download-btn" id="downloadPdfBtn" type="button" disabled>Calculate the cost before you can download the PDF</button>
+                <p class="pdf-feedback" id="pdfFeedback" aria-live="polite"></p>
+                <p class="result-action-note">The presentation brief is intended to be shared with a manager, leadership team, or other decision-makers.</p>
+              </div>
+            </div>
+          </div>
+          <div class="result-explainer">
+            <h3 id="resultExplainerTitle">Next steps for you</h3>
+            <ol class="next-step-list" id="resultExplainerList"></ol>
+          </div>
+        </div>
+
+        <div class="interpretation-grid" id="interpretationGrid"></div>
+      </section>
+
+      <section class="content-card solution-card" id="solution" aria-labelledby="solution-title" data-pdf-section="solution">
+          <div class="section-header">
+            <span class="section-kicker">The way forward</span>
+          <h2 class="section-heading" id="solution-title">Three steps from AI debt to measurable impact</h2>
+          <p class="section-copy">The result shows why you should act. The steps below show how to begin without making it too large, difficult, or overly technical.</p>
+        </div>
+
+        <div class="solution-layout">
+          <div class="phase-visual">
+            <figure class="phase-figure">
+              <button
+                class="phase-image-trigger"
+                type="button"
+                data-lightbox-trigger
+                data-lightbox-image="/images/phases/Superintelligent-model-40.webp"
+                data-lightbox-alt="The Superintelligent model in three phases from AI adoption to a superintelligent company"
+                aria-haspopup="dialog"
+                aria-controls="imageLightbox"
+                aria-label="Enlarge the Superintelligent model image"
+              >
+                <img
+                  class="phase-image"
+                  src="/images/phases/Superintelligent-model-40.webp"
+                  alt="The Superintelligent model in three phases from AI adoption to a superintelligent company"
+                />
+                <span class="phase-image-zoom-badge" aria-hidden="true">
+                  <span class="phase-image-zoom-icon">+</span>
+                  <span class="phase-image-zoom-label">Enlarge</span>
+                </span>
+              </button>
+            </figure>
+            <div class="phase-cta-band" data-pdf-exclude>
+              <div class="phase-cta-content">
+                <p class="phase-cta-copy">We show which phase is right to start with and how you can get going without unnecessary complexity.</p>
+                <a class="cta cta-compact" href="#" data-url-key="booking.en">Book a free 30-minute walkthrough</a>
+              </div>
+            </div>
+          </div>
+          <div class="phase-grid">
+            <article class="phase-card phase-card-priority">
+              <span class="phase-index">Phase 1</span>
+              <h3>Start simple and get impact quickly</h3>
+              <p>Reduce the AI debt in everyday work by activating the right tools and ways of working in meetings, analysis, documentation, and communication.</p>
+              <p class="phase-card-emphasis">This is usually the simplest and most profitable first step.</p>
+            </article>
+            <article class="phase-card">
+              <span class="phase-index">Phase 2</span>
+              <h3>Build further into workflows and teams</h3>
+              <p>Increase output and reduce friction through more systematic AI support in prioritized work tasks.</p>
+            </article>
+            <article class="phase-card">
+              <span class="phase-index">Phase 3</span>
+              <h3>Scale and anchor broadly</h3>
+              <p>Build a more AI-mature company with clear alignment, governance, and internal capability.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-card proof-card" id="proof" aria-labelledby="proof-title" data-pdf-section="proof">
+        <div class="proof-header">
+          <div class="section-header proof-intro">
+            <span class="section-kicker">Method and sources</span>
+            <h2 class="section-heading" id="proof-title">How the brief should be read</h2>
+            <p class="section-copy" id="proofSectionCopy">This is a concise trust layer for decision-makers: what the research actually shows, which levels are used in the model, and what is required to realize the value.</p>
+          </div>
+        </div>
+
+        <div class="method-accordion" id="methodAccordion" data-accordion-group></div>
+      </section>
+
+      <section class="content-card cta-section" id="demo" aria-labelledby="cta-title">
+        <span class="section-kicker">Next step</span>
+        <h2 class="section-heading" id="cta-title">Build the Superintelligent company with us</h2>
+        <p class="section-copy">Book a walkthrough and see which workflows should be activated first to start saving 75,000 SEK per employee and build long-term AI capability internally.</p>
         <div class="cta-wrap">
-          <a class="cta" href="#demo">Book a demo &amp; reduce the cost</a>
+          <a class="cta" href="#" data-url-key="booking.en">I want to take the next step now</a>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   </main>
 
-  <script>
-    const COST_PER_EMPLOYEE_SEK = 100000;
-    const SEK_PER_EUR = 10;
-    const employeesInput = document.getElementById("employees");
-    const calculateBtn = document.getElementById("calculateBtn");
-    const yearlyEl = document.getElementById("yearly");
-    const monthlyEl = document.getElementById("monthly");
-    const dailyEl = document.getElementById("daily");
-    const errorEl = document.getElementById("error");
+  <div class="pdf-export-root" id="pdfExportRoot" aria-hidden="true"></div>
+  <div class="image-lightbox" id="imageLightbox" hidden>
+    <div class="image-lightbox-backdrop" data-lightbox-close></div>
+    <div
+      class="image-lightbox-dialog"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="imageLightboxTitle"
+    >
+      <div class="image-lightbox-toolbar">
+        <p class="image-lightbox-title" id="imageLightboxTitle">Enlarged image</p>
+        <button class="image-lightbox-close" type="button" data-lightbox-close aria-label="Close image viewer">
+          Close
+        </button>
+      </div>
+      <div class="image-lightbox-content">
+        <img class="image-lightbox-image" id="imageLightboxImage" alt="" />
+      </div>
+    </div>
+  </div>
 
-    function formatCurrency(value) {
-      return new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "EUR",
-        maximumFractionDigits: 0
-      }).format(value);
-    }
-
-    function calculate() {
-      const rawValue = employeesInput.value.trim();
-      const employees = Number(rawValue);
-
-      if (!rawValue) {
-        errorEl.textContent = "Add your employee count and see how much growth is currently left on the table.";
-        return;
-      }
-
-      if (!Number.isFinite(employees) || employees <= 0) {
-        errorEl.textContent = "Use a number above 0 — every day without the right AI setup increases the opportunity cost.";
-        return;
-      }
-
-      errorEl.textContent = "";
-
-      const yearlySEK = employees * COST_PER_EMPLOYEE_SEK;
-      const monthlySEK = yearlySEK / 12;
-      const dailySEK = yearlySEK / 365;
-
-      const yearlyEUR = yearlySEK / SEK_PER_EUR;
-      const monthlyEUR = monthlySEK / SEK_PER_EUR;
-      const dailyEUR = dailySEK / SEK_PER_EUR;
-
-      yearlyEl.textContent = `${formatCurrency(yearlyEUR)} / year`;
-      monthlyEl.textContent = `${formatCurrency(monthlyEUR)} / month`;
-      dailyEl.textContent = `${formatCurrency(dailyEUR)} / day`;
-    }
-
-    calculateBtn.addEventListener("click", calculate);
-    employeesInput.addEventListener("keydown", (event) => {
-      if (event.key === "Enter") {
-        calculate();
-      }
-    });
-  </script>
+  <script src="/en/index.js"></script>
 </body>
 </html>
