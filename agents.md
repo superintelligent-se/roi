@@ -39,6 +39,7 @@ Do not combine all of these into one large change unless explicitly requested.
 - Keep rendering concerns separate from calculation/state logic.
 - If JavaScript is extracted, organize it into focused modules or files that match the current project complexity.
 - Do not over-engineer; choose the lightest solution consistent with the current stack.
+- Color policy and palette scales live in `/DESIGN_TOKENS.md` and `/color-tokens.css`; update those first and keep CTA/link usage on the primary color and background usage on light secondary tones.
 
 ## URL policy
 - Do not hardcode new URLs directly in HTML or JavaScript.
